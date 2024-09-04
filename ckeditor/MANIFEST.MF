@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Created-By: PrimeFaces Extensions
+Build-Jdk-Spec: 17
+Specification-Title: PrimeFaces Extensions Resources CKEditor
+Specification-Version: 12.0
+Implementation-Title: PrimeFaces Extensions Resources CKEditor
+Implementation-Version: 12.0.4
+X-Compile-Source: 8
+X-Compile-Target: 8
+Bundle-ManifestVersion: 2
+Bundle-Name: primefaces.extensions.resources.ckeditor
+Bundle-Description: PrimeFaces Extensions CKEditor Resources
+Bundle-SymbolicName: org.primefaces.extensions.resources.ckeditor
+
