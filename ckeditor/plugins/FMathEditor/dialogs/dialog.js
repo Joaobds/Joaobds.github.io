@@ -47,7 +47,7 @@
 				} else if (event.data.type === 'error') {
 					alert(event.data.message);
 				}
-			}, false);
+			}, { once: true });
 		},
 		onShow: function() {
 			iframe = document.getElementById(editorIFrameID);
