@@ -30,10 +30,12 @@
 <center><div id="editor1"></div></center>
 
 <script>
-	window.addEventListener("message", function(event) {
-		if (event.data === "getMathML") {
-			var mathML = getMathML();
-			event.source.postMessage(mathML, event.origin);
+	window.addEventListener('message', function(event) {
+		if (event.data.type === 'getMathML') {
+			var mathml = getMathML();
+			event.source.postMessage({ type: 'mathMLResponse', mathml: mathml }, event.origin);
+		} else if (event.data.type === 'setMathML') {
+			setMathML(event.data.mathml);
 		}
 	}, false);
 
