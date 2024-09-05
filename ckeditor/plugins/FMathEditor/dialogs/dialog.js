@@ -22,34 +22,30 @@
 		onOk: function() {
 			var dialog = this;
 
-			iframe.contentWindow.postMessage({ type: 'getMathML' }, '*');
+			iframe.contentWindow.postMessage({ type: 'getMathMLAndBlob' }, '*');
 
 			window.addEventListener('message', function(event) {
+				if (event.data.type === 'mathMLAndBlobResponse') {
+					var mathml = event.data.mathml;
+					var img = event.data.blobOrUrl;
 
-				if (event.data.type === 'mathMLResponse') {
-					mathml = event.data.mathml;
-
-					document.getElementById(editorIFrameID).contentWindow.getBlobOrUrl(function(result) {
-						if (result.indexOf("ERROR:") == 0) {
-							alert(result);
-						} else {
-							var img = result;
-							var selection = editor.getSelection();
-							if (selection.getType() == CKEDITOR.SELECTION_ELEMENT) {
-								var selElem = selection.getSelectedElement();
-								if (selElem.getName() == 'img') {
-									selElem.data('cke-saved-src', img);
-									selElem.setAttribute("src", img)
-									selElem.setAttribute("alt", "MathML (base64):" + window.btoa(mathml));
-									return;
-								}
-							}
-							var imgElem = editor.document.createElement('img');
-							imgElem.setAttribute("src", img)
-							imgElem.setAttribute("alt", "MathML (base64):" + window.btoa(mathml));
-							editor.insertElement(imgElem);
+					var selection = editor.getSelection();
+					if (selection.getType() == CKEDITOR.SELECTION_ELEMENT) {
+						var selElem = selection.getSelectedElement();
+						if (selElem.getName() == 'img') {
+							selElem.data('cke-saved-src', img);
+							selElem.setAttribute("src", img);
+							selElem.setAttribute("alt", "MathML (base64):" + window.btoa(mathml));
+							return;
 						}
-					});
+					}
+
+					var imgElem = editor.document.createElement('img');
+					imgElem.setAttribute("src", img);
+					imgElem.setAttribute("alt", "MathML (base64):" + window.btoa(mathml));
+					editor.insertElement(imgElem);
+				} else if (event.data.type === 'error') {
+					alert(event.data.message);
 				}
 			}, false);
 		},

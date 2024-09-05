@@ -31,9 +31,23 @@
 
 <script>
 	window.addEventListener('message', function(event) {
-		if (event.data.type === 'getMathML') {
-			var mathml = getMathML();
-			event.source.postMessage({ type: 'mathMLResponse', mathml: mathml }, event.origin);
+		if (event.data.type === 'getMathMLAndBlob') {
+			try {
+				var mathml = getMathML();
+				getBlobOrUrl(function(result) {
+					if (result.indexOf("ERROR:") === 0) {
+						event.source.postMessage({ type: 'error', message: result }, event.origin);
+					} else {
+						event.source.postMessage({
+							type: 'mathMLAndBlobResponse',
+							mathml: mathml,
+							blobOrUrl: result
+						}, event.origin);
+					}
+				});
+			} catch (e) {
+				event.source.postMessage({ type: 'error', message: e.message }, event.origin);
+			}
 		} else if (event.data.type === 'setMathML') {
 			setMathML(event.data.mathml);
 		}
