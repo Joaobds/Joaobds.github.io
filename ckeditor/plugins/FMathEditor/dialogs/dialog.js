@@ -21,9 +21,12 @@
 			var iframe = document.getElementById(editorIFrameID);
 			iframe.contentWindow.postMessage("getMathML", "https://joaobds.github.io");
 			window.addEventListener("message", function(event) {
-				if (event.origin !== "https://joaobds.github.io")
+				if (event.origin !== "https://joaobds.github.io") {
+					console.log(event.origin);
 					return;
-				var mathml = event.data;
+				}
+
+				let mathml = event.data;
 
 				document.getElementById(editorIFrameID).contentWindow.getBlobOrUrl(function(result) {
 					if (result.indexOf("ERROR:") == 0) {
