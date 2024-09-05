@@ -18,28 +18,35 @@
         ],
         onOk: function() {
             var dialog = this;
-			var mathml = document.getElementById(editorIFrameID).contentWindow.getMathML();
-			document.getElementById(editorIFrameID).contentWindow.getBlobOrUrl( function(result){
-						if(result.indexOf("ERROR:")==0){
-							alert(result);
-						}else{
-							var img = result;
-							var selection = editor.getSelection();
-							if (selection.getType() == CKEDITOR.SELECTION_ELEMENT) {
-								var selElem = selection.getSelectedElement();
-								if(selElem.getName() == 'img'){
-									selElem.data( 'cke-saved-src', img );
-									selElem.setAttribute( "src", img)
-									selElem.setAttribute( "alt",  "MathML (base64):" + window.btoa(mathml));
-									return;
-								}
+			var iframe = document.getElementById(editorIFrameID);
+			iframe.contentWindow.postMessage("getMathML", "https://joaobds.github.io");
+			window.addEventListener("message", function(event) {
+				if (event.origin !== "https://joaobds.github.io")
+					return;
+				var mathml = event.data;
+
+				document.getElementById(editorIFrameID).contentWindow.getBlobOrUrl(function(result) {
+					if (result.indexOf("ERROR:") == 0) {
+						alert(result);
+					} else {
+						var img = result;
+						var selection = editor.getSelection();
+						if (selection.getType() == CKEDITOR.SELECTION_ELEMENT) {
+							var selElem = selection.getSelectedElement();
+							if (selElem.getName() == 'img') {
+								selElem.data('cke-saved-src', img);
+								selElem.setAttribute("src", img);
+								selElem.setAttribute("alt", "MathML (base64):" + window.btoa(mathml));
+								return;
 							}
-							var imgElem = editor.document.createElement( 'img' );
-							imgElem.setAttribute( "src", img)
-							imgElem.setAttribute( "alt",   "MathML (base64):" + window.btoa(mathml));
-							editor.insertElement( imgElem );							
+						}
+						var imgElem = editor.document.createElement('img');
+						imgElem.setAttribute("src", img);
+						imgElem.setAttribute("alt", "MathML (base64):" + window.btoa(mathml));
+						editor.insertElement(imgElem);
 					}
-			}) ;
+				});
+			}, { once: true });
 
         },
         onShow: function(){

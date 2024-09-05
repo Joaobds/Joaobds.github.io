@@ -30,6 +30,12 @@
 <center><div id="editor1"></div></center>
 
 <script>
+	window.addEventListener("message", function(event) {
+		if (event.data === "getMathML") {
+			var mathML = getMathML();
+			event.source.postMessage(mathML, event.origin);
+		}
+	}, false);
 
 	var e1 = $( "#editor1" ).mathEditor({ width: 1000, height:400 });
 	e1.mathEditor("setSaveCallback", clientSaveMethod);
