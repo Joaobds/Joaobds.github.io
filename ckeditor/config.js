@@ -15,7 +15,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	config.width = '100%';
-	config.extraPlugins = 'FMathEditor, SimpleLink, youtube, openlink, imageresizerowandcolumn';
+	config.extraPlugins = 'FMathEditor, SimpleLink, youtube, openlink, imageresizerowandcolumn, emoji, autocomplete, textwatcher, textmatch, ajax, xml, panelbutton, button, floatpanel, panel';
 	config.removePlugins = 'iframe';
 	config.allowedContent = true;
 	config.mathJaxLib = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_HTML'
