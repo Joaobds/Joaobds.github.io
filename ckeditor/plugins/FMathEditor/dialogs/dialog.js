@@ -21,11 +21,6 @@
 			var iframe = document.getElementById(editorIFrameID);
 			iframe.contentWindow.postMessage("getMathML", "https://joaobds.github.io");
 			window.addEventListener("message", function(event) {
-				if (event.origin !== "https://joaobds.github.io") {
-					console.log(event.origin);
-					return;
-				}
-
 				let mathml = event.data;
 
 				document.getElementById(editorIFrameID).contentWindow.getBlobOrUrl(function(result) {
