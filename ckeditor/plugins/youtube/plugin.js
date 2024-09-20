@@ -20,7 +20,7 @@
 			});
 
 			CKEDITOR.dialog.add('youtube', function (instance) {
-				var video,
+				var video, isShorts = false,
 					disabled = editor.config.youtube_disabled_fields || [];
 
 				disabled = [
@@ -53,6 +53,9 @@
 						var hms = secondsToHms(seconds);
 						el.getDialog().getContentElement('youtubePlugin', 'txtStartAt').setValue(hms);
 					}
+
+					video = videoId;
+					isShorts = ytIsShorts(el.getValue());
 				}
 				function handleEmbedChange(el, api) {
 					if (el.getValue().length > 0) {
@@ -286,8 +289,12 @@
 								url += 'www.youtube.com/';
 							}
 
-							url += 'embed/' + video;
-
+							if (isShorts) {
+								url += 'embed/shorts/' + video;
+							} else {
+								url += 'embed/' + video;
+							}
+							
 							if (this.getContentElement('youtubePlugin', 'chkRelated').getValue() === false) {
 								params.push('rel=0');
 							}
@@ -372,6 +379,11 @@
  */
 function ytVidId(url) {
 	var p = /^(?:https?:\/\/)?(?:(?:www|m).)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+	return (url.match(p)) ? RegExp.$1 : false;
+}
+
+function ytIsShorts(url) {
+	var p = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/((\w|-){11})$/;
 	return (url.match(p)) ? RegExp.$1 : false;
 }
 
