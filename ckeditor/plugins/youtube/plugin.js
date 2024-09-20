@@ -377,8 +377,9 @@
  * @url: http://stackoverflow.com/a/10315969/624466
  */
 function ytVidId(url) {
-	var p = /^(?:https?:\/\/)?(?:(?:www|m).)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-	return (url.match(p)) ? RegExp.$1 : false;
+	var p = /^(?:https?:\/\/)?(?:(?:www|m).)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/; //youtube
+	var p1 = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/((\w|-){11})$/; //youtube shorts
+	return (url.match(p) || url.match(p1)) ? RegExp.$1 : false;
 }
 
 function ytIsShorts(url) {
