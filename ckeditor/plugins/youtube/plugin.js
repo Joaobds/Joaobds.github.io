@@ -54,7 +54,6 @@
 						el.getDialog().getContentElement('youtubePlugin', 'txtStartAt').setValue(hms);
 					}
 
-					video = videoId;
 					isShorts = ytIsShorts(el.getValue());
 				}
 				function handleEmbedChange(el, api) {
@@ -294,7 +293,7 @@
 							} else {
 								url += 'embed/' + video;
 							}
-							
+
 							if (this.getContentElement('youtubePlugin', 'chkRelated').getValue() === false) {
 								params.push('rel=0');
 							}
